@@ -1,0 +1,400 @@
+% !TEX TS-program = pdflatex
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{cleveref}
+% \setlist[itemize]{noitemsep,topsep=2pt}
+% \setlist[enumerate]{noitemsep,topsep=4pt,label=\arabic*.}
+
+
+  \newtheorem{theorem}{Theorem}
+  \newtheorem{definition}{Definition}
+
+  \title{Project Description for Optimization~1: Location Analysis}
+  \author{}
+  \date{February 9, 2026}
+
+  \begin{document}
+  \maketitle\footnotetext{This project is based on the 2022 project
+    written by Elizabeth K\"obis.}
+
+  \section*{Submission}
+
+  You are strongly encouraged to work on this project in groups of up to
+  three. Each member of the group must submit an (identical) copy of the
+  project before the deadline 23:59 22.3.2026 on Inspera.
+
+  Each submission should clearly indicate which points of the project
+  they contributed to. It is acceptable for all members to contribute to
+  all points. \emph{For full marks, all numbered points should be
+    addressed.}
+
+  The project should be completed as a written report, including a
+  type-set \verb|pdf| file. The coding component should be runnable. It is
+  recommended to submit your code as a Jupyter notebook, with minimal
+  external dependencies. You should submit the pdf file and code as a
+  single \verb|zip| file. The clarity of your report counts towards the final
+  grade.
+
+
+  Please direct questions about the project towards Anja, who can be
+  reached via email at \texttt{anjarin@stud.ntnu.no}.
+
+
+  \section{Introduction}
+  Many important problems from industry, engineering-technical or social
+  area, logistics and the energy industry lead to location
+  problems. Examples of this are the planning of new industrial plants,
+  production facilities or warehouses, of hospitals, rescue stations and
+  other public facilities, to landscaping or the placement of sensors on
+  technical components. For example, in order to avoid hospital spacial
+  ineciency, it is important to learn how to optimize the spaces such
+  that relevant services such as surgical equipment or emergency
+  services are located at the best points of access to other
+  stations. As another example, for a decision-maker deciding the best
+  location to build a warehouse relative to factories, it is important
+  to nd the best place to locate this warehouse in order to minimize
+  costs of travel and transportations. Thus, location problems appear in
+  many variants and with dierent constraints depending on the practical
+  application. Other examples of location analysis appear for instance
+  in the following areas:
+  \begin{itemize}
+
+  \item Urban and regional planning (e.g., locations for emergency
+    facilities)
+
+  \item Technology (e.g., placement of sensors on technical components)
+
+  \item Economy (e.g., planning new production facilities)
+
+  \item Geography (e.g., landscape design)
+
+  \item Environment-oriented project management (e.g., development of
+  mining landscapes,
+
+\item Engineering.
+
+\end{itemize}
+
+This project is intended to provide the mathematical tools to model
+and solve location problems.  The main goal in location analysis is to
+find one or more new locations with minimal distance to a set of known
+locations.
+
+\section{Problem description}
+
+Let us consider $m$ given points in the plane
+
+$$
+a^i=\left(a_1^i, a_2^i\right)^{\top} \in \mathbb{R}^2, \quad i=1, \ldots, m .
+$$
+
+$A=\left\{a^1, \ldots, a^m\right\}$ is the set of all given
+locations. Let $\mathcal{M}:=\{1, \ldots, m\}$. We denote the new
+location, which we want to determine, by
+
+$$
+x=\left(x_1, x_2\right)^{\top} \in \mathbb{R}^2 .
+$$
+
+
+When modeling a location problem, distance measures as well as the
+selected objective function play a key role. We consider the following
+distances:
+\begin{itemize}
+\item $d_1(x, y)=\left|x_1-y_1\right|+\left|x_2-y_2\right|$ (Manhattan
+  or Taxicab distance)
+\item $d_2(x, y)=\sqrt{\left(x_1-y_1\right)^2+\left(x_2-y_2\right)^2}$
+  (Euclidean distance)
+\item $d_{\infty}(x, y)=\max
+  \left\{\left|x_1-y_1\right|,\left|x_2-y_2\right|\right\}$ (Maximum
+  distance)
+\end{itemize}
+
+The individual distances between the unknown $x$ and a given $a^i$ are
+set differently according to the concrete application. The selection
+of the distance measure determines whether the distance should be
+measured by the linear distance (Euclidean) or by a blocknorm (Maximum
+or Manhattan). The Maximum distance is suitable if movement in both
+directions is possible and only the larger one of the two determines
+the length of the movement.
+
+For the objective function, the following ones are possible:
+\begin{itemize}
+\item $\max _{a \in A} d(a, x)$ (Center problem)
+\item  $\sum_{a \in A} d(a, x)$ (Median function)
+\end{itemize}
+
+Thus, we consider the following problems
+
+\begin{equation} \label{2.1}
+  \min _{x \in \mathbb{R}^2} \max _{a \in A} d(a, x) \text { (Center
+    problem) }
+\end{equation}
+\begin{equation} \label{2.2}
+  \min _{x \in \mathbb{R}^2} \sum_{a \in A} d(a, x) \text { (Median
+    problem, also
+    called
+    Fermat-Weber
+    problem) }
+\end{equation}
+
+\subsection{Metrics and Norms}
+
+Mathematically, the distances between two points in the plane can be
+measured using an appropriate metric.
+\begin{definition}
+  Let $Y$ be a
+  non-empty set of $\mathbb{R}^2$. A function
+  $d: Y \times Y \rightarrow \mathbb{R}$ is called metric on $Y$ if $d$
+  fulfills the following conditions for all $x, y, z, \in Y$ :
+  \begin{itemize}
+  \item $d(x, y)=0 \Longleftrightarrow x=y$ (definiteness).
+  \item $d(x, y)=d(y, x)$ (symmetry).
+  \item $d(x, z) \leq d(x, y)+d(y, z)$
+    (triangle inequality).
+  \end{itemize}
+
+  Note that $d(x, y) \in\mathbb{R}$ represents the distance between the points
+  $x$ and $y$.
+\end{definition}
+
+\begin{definition}
+  A function $\|\cdot\|: \mathbb{R}^2 \rightarrow \mathbb{R}$ is
+  called norm on $\mathbb{R}^2$ if $\|\cdot\|$ fulfills the following
+  conditions for all $x, y \in \mathbb{R}^2$ and for all $\alpha \in
+  \mathbb{R}$ :
+  \begin{itemize}
+  \item  $\|x\|=0 \Longleftrightarrow x=0$ (definiteness).
+  \item $\|\alpha x\|=|\alpha| \cdot\|x\|$ (positive homogeneity).
+  \item  $\|x+y\| \leq\|x\|+\|y\|$ (triangle inequality).
+  \end{itemize}
+    
+  If $\|\cdot\|: \mathbb{R}^2 \rightarrow \mathbb{R}$ is a norm, then
+  it is possible to define a metric on $\mathbb{R}^2$ that is induced
+  by the norm $\|\cdot\|$ in the following way:
+
+  $$
+  d(x, y):=\|x-y\|
+  $$
+
+  for all $x, y \in \mathbb{R}^2$.
+\end{definition}
+
+\subsection{Project Tasks - Theoretical Work}
+\begin{enumerate}
+\item Show that $d_1, d_2$ and $d_{\infty}$ are metrics.
+\item  Plot the unit balls $B_i(0,1):=\left\{x \in \mathbb{R}^2 \mid\|x\|_i \leq 1\right\}(i \in\{1,2, \infty\})$ of the so-called Manhattan norm, the Euclidean norm and of the maximum norm.
+\item  Show that every norm is a convex function.
+\item  Show that the objective function of problems \eqref{2.1} and
+  \eqref{2.2} is convex. 
+\item  Give a geometric interpretation of solving problem \eqref{2.1} with Euclidean distance function.
+\item  Provide a solution approach for problem \eqref{2.2} with Manhattan
+  distance function (Hint: Note that the objective function can be
+  separated (so-called separability). Just describe the idea of such
+  an approach.).
+\item Consider the Median problem with squared Euclidean distance function
+
+  \[
+  \min _{x \in \mathbb{R}^{2}} \sum_{a \in A}\left(d_{2}(a, x)\right)^{2} .
+\]
+
+Show that the objective function is convex, and analytically compute
+the uniquely determined minimizer of this problem. [10 points]
+
+\item Consider the Median problem with Euclidean distance function
+
+  \[
+  \min _{x \in \mathbb{R}^{2}} \sum_{a \in A} d_{2}(a, x) .
+\]
+
+Derive necessary optimality conditions for minimizers of this problem
+(Hint: Note that the partial derivatives are not defined globally).
+
+\item
+  Give an example of a set of existing locations, where the set of
+  global minimizers for the problem \(\min _{x \in \mathbb{R}^{2}}
+  \sum_{a \in A} d_{2}(a, x)\) and \(\min _{x \in \mathbb{R}^{2}}
+  \sum_{a \in A}\left(d_{2}(a, x)\right)^{2}\) do not
+  coincide. Explain the solution.
+\end{enumerate}
+
+\section{Weiszfeld Algorithm}
+The above problem in task 7. was easy to solve, as the objective function is differentiable and one is able to derive the stationary points by rearranging the formula appearing in the optimality condition. If we consider the Median problem with Euclidean distance function that is not squared, an according procedure is not as simple anymore, as one cannot solve for a minimizer directly. Instead, one uses an iterative procedure to compute approximations of a minimizer. Here, we consider the Median problem with weighted Euclidean distances as follows
+
+\begin{equation}\label{P}
+  \min _{x \in \mathbb{R}^{2}} \sum_{i \in \mathcal{M}} v^{i} d_{2}\left(a^{i}, x\right)
+  \end{equation}
+
+  where the weights \(v^{i}, i \in \mathcal{M}=\{1, \ldots, m\}\), are real-valued nonnegative numbers.\\
+  The problem \eqref{P} is one of the most fundamental location problems. It consists of finding a point that minimizes the sum of its weighted distances to a given finite set of anchor points. The problem is credited to the well-known French mathematician Pierre de Fermat, who at the beginning of the seventeenth century posed the following question:
+
+  \begin{center}
+    \emph{Given three points in a plane, find a fourth point such that
+      the sum of its distances to the three given points is as small
+      as possible.}
+  \end{center}
+
+  The Italian physicist and mathematician Evangelista Torricelli (mostly known for inventing the barometer) found a construction method of this point by ruler and compass, and it is therefore also called "the Toricelli point" (see reference 2. in Section 4). At the beginning of the twentieth century, the German economist Alfred Weber incorporated weights, and was able to treat facility location problems with more than 3 facilities, and the problem was consequently called "the Fermat-Weber problem". Other names for the problem are "the Fermat problem", "the Weber problem", "the Fermat-Toricelli problem", "the Steiner problem", and many more variants.
+
+  Before presenting an algorithm for solving problem ( \(P_{d_{2}}\) ), we give the following result.\\
+  Theorem 1 (see: Love, Morris Wesolowsky, 1988, Property 2.2). If for
+
+  \[
+      \text { Test }_{k}:=\left[\left(\sum_{i \in \mathcal{M} \backslash\{k\}} v^{i} \frac{a_{1}^{k}-a_{1}^{i}}{d_{2}\left(a^{k}, a^{i}\right)}\right)^{2}+\left(\sum_{i \in \mathcal{M} \backslash\{k\}} v^{i} \frac{a_{2}^{k}-a_{2}^{i}}{d_{2}\left(a^{k}, a^{i}\right)}\right)^{2}\right]^{\frac{1}{2}},
+    \]
+
+it holds that
+
+\[
+  \operatorname{Test}_{k} \leq v^{k}
+\]
+
+for one \(k \in \mathcal{M}\), then \(x^{*}=a^{k}\) is a global minimizer.\\
+The so-called Weiszfeld algorithm is an iterative method based on the first-order necessary conditions for a stationary point of the objective function.
+
+The Weiszfeld algorithm consists of the following steps:
+
+\subsubsection*{Weiszfeld algorithm for solving \eqref{P}}
+Input. Existing locations \(a^{i}=\left(a_{1}^{i}, a_{2}^{i}\right)^{T} \in \mathbb{R}^{2}\) (that are pairwise different from each other), weights \(v^{i}>0, i \in \{1, \ldots, m\}\), error bound \(\epsilon>0\).
+
+\begin{enumerate}[label=(\alph*)]
+\item Check if the minimum is attained at an existing location
+  \(a^{i}, i \in\{1, \ldots, m\}\). If for
+  \[
+    \operatorname{Test}_{k}:=\left[\left(\sum_{i \in \mathcal{M}
+          \backslash\{k\}} v^{i}
+        \frac{a_{1}^{k}-a_{1}^{i}}{d_{2}\left(a^{k},
+            a^{i}\right)}\right)^{2}+\left(\sum_{i \in \mathcal{M}
+          \backslash\{k\}} v^{i}
+        \frac{a_{2}^{k}-a_{2}^{i}}{d_{2}\left(a^{k},
+            a^{i}\right)}\right)^{2}\right]^{\frac{1}{2}},
+  \]
+  it holds that
+  \[
+    \operatorname{Test}_{k} \leq v^{k}
+  \]
+  for one \(k \in \mathcal{M} \Longrightarrow\) Set \(x^{*}=a^{k}\) and
+  END. Otherwise go to Step (b).
+
+\item Choose a starting point \(x=\left(x_{1}, x_{2}\right)\). This point can be found, for example, by solving the median problem using the squared Euclidean norm.
+\item  Set for \(j=1,2: x_{j}^{\text {new }}=\frac{\sum_{i=1}^{m} v^{i} \frac{a_{j}^{i}}{d_{2}\left(a^{i}, x\right)}}{\sum_{i=1}^{m} v^{i} \frac{1}{d_{2}\left(a^{i}, x\right)}}\).\\
+\item If \(x^{\text {new }}=\left(x_{1}^{\text {new }}, x_{2}^{\text {new }}\right)\) satisfies a stopping criterion w.r.t. the given \(\epsilon\) (see \S\ref{sec:terminate} below) then set \(x^{*}=x^{\text {new }}\). Otherwise: Set \(x=x^{\text {new }}\) and go to Step 3.
+
+\end{enumerate}
+Output. Approximation of the minimizer \(x^{*}=\left(x_{1}^{*}, x_{2}^{*}\right)\).\\
+The main iteration scheme in the algorithm is
+
+\begin{equation} \label{iterscheme}
+  \begin{split}
+    x_{1}^{\text {new }} & :=\frac{\sum_{i=1}^{m} v^{i} \frac{a_{1}^{i}}{d_{2}\left(a^{i}, x\right)}}{\sum_{i=1}^{m} v^{i} \frac{1}{d_{2}\left(a^{i}, x\right)}} \\
+    x_{2}^{\text {new }} & :=\frac{\sum_{i=1}^{m} v^{i}
+                           \frac{a_{2}^{i}}{d_{2}\left(a^{i},
+                           x\right)}}{\sum_{i=1}^{m} v^{i}
+                           \frac{1}{d_{2}\left(a^{i}, x\right)}}
+  \end{split}
+\end{equation}
+
+\subsection{Termination Criterion} \label{sec:terminate}
+Let us define \(f_{d_{2}}(x):=\sum_{i \in \mathcal{M}} v^{i} d_{2}\left(a^{i}, x\right)\). Let \(x \in \mathbb{R}^{2}\) be an iteration point that was obtained during the Weiszfeld algorithm. We define
+
+\[
+  \sigma(x):=\max \left\{d_{2}(x, y): y \in \operatorname{conv}\left\{a^{1}, \ldots, a^{m}\right\}\right\}
+\]
+
+with \(\operatorname{conv}\left\{a^{1}, \ldots, a^{m}\right\}:=\left\{x \in \mathbb{R}^{2}: \exists \lambda^{1} \geq 0, \ldots, \lambda^{m} \geq 0, \sum_{i=1}^{m} \lambda^{i}=1, x=\sum_{i=1}^{m} \lambda^{i} a^{i}\right\}\) being the convex hull.\\
+\begin{theorem} \label{thm2}
+  Let \(x \in \mathbb{R}^{2}\) be an iteration point that was obtained during the Weiszfeld algorithm. Then
+
+  \[
+      U B(x):=\left\|\nabla f_{d_{2}}(x)\right\| \cdot \sigma(x)
+\]
+
+is an upper bound for a possible improvement of the objective function
+\(f_{d_{2}}(x)\), where \(\|\cdot\|\) is the Euclidean norm in
+\(\mathbb{R}^{2}\).
+
+\end{theorem}
+\begin{proof}
+Because \(f_{d_{2}}\) is convex, we have for an iteration point \(x\) obtained during the Weiszfeld algorithm
+
+\[
+  \begin{aligned}
+    f_{d_{2}}(x)-f_{d_{2}}\left(x^{*}\right) & \leq\left\langle\nabla f_{d_{2}}(x), x-x^{*}\right\rangle \\
+                                             & \text { Cauchy-Schwartz } \underset{\leq}{\leq}\left\|\nabla f_{d_{2}}(x)\right\| \cdot\left\|x-x^{*}\right\| \\
+                                             & \leq\left\|\nabla f_{d_{2}}(x)\right\| \cdot \sigma(x)
+  \end{aligned}
+\]
+\end{proof}
+
+\begin{theorem} \label{thm3}
+  Let \(x^{*}\) denote the global minimizer of \(\left(P_{d_{2}}\right)\). A lower bound for \(f_{d_{2}}\left(x^{*}\right)\) is given by
+  \[
+    L B(x):=f_{d_{2}}(x)-\left\|\nabla f_{d_{2}}(x)\right\| \cdot \sigma(x) .
+  \]
+\end{theorem}
+\begin{proof}
+  We have from Theorem 2
+
+  \[
+  f_{d_{2}}(x)-f_{d_{2}}\left(x^{*}\right) \leq\left\|\nabla f_{d_{2}}(x)\right\| \cdot \sigma(x),
+\]
+
+and therefore
+
+\[
+  f_{d_{2}}(x)-\left\|\nabla f_{d_{2}}(x)\right\| \cdot \sigma(x) \leq f_{d_{2}}\left(x^{*}\right) .
+\]
+\end{proof}
+Based on these two results, show that the following consequence holds:\\
+\begin{theorem} \label{thm4}
+  If for the lower bound, we have \(L B(x)>0\) and for a given \(\epsilon>0\)
+
+  \[
+      \frac{U B(x)}{L B(x)}=\frac{\left\|\nabla f_{d_{2}}(x)\right\|
+        \cdot \sigma(x)}{f_{d_{2}}(x)-\left\|\nabla
+          f_{d_{2}}(x)\right\| \cdot \sigma(x)}<\epsilon
+    \]
+
+    holds true, then the current iterate has at least a relative
+    accuracy\footnote{\({ }^{1}\) The relative accuracy of the current
+      iterate \(x\) is defined as
+      \(\left|\frac{f_{d_{2}}(x)-f_{d_{2}}\left(x^{*}\right)}{f_{d_{2}}\left(x^{*}\right)}\right|\).
+    } of \(\epsilon\).
+  \end{theorem}
+
+  \subsection*{3.2 Project Tasks - Weiszfeld Algorithm}
+  \begin{enumerate}[start=10]
+  \item Explain why the main iteration scheme is chosen according to \eqref{iterscheme}.
+  \item Prove \Cref{thm4} above using \Cref{thm2} and \Cref{thm3}.
+  \item Derive a termination criterion for the Weiszfeld algorithm based on \Cref{thm4}.
+  \item Implement the Weiszfeld algorithm using Python, including a
+    test example. Your code must be runnable.
+  \item Implement the gradient descent method with backtracking and
+    replace steps (b)-(d) in the above algorithm with it. Compare with
+    the Weiszfeld algorithm and discuss the difference between the two
+    algorithms and their performance. Which algorithm would you
+    suggest, and why?
+  \end{enumerate}
+
+
+  \section*{4 Suggested Reading Material / Additional Resources}
+  \begin{enumerate}[label=\Roman*.]
+  \item R. F. Love, J. G. Morris and G. O. Wesolowsky: Facility Location: Models and Methods, North Holland, New York, 1988. The relevant pages of this reference can be found here: \href{http://web.tecnico.ulisboa}{http://web.tecnico.ulisboa}. pt/mcasquilho/compute/\_scicomp/\_location/LoveMorrisWesolowsky.pdf
+  \item A. Beck, S. Sabach, S. Weiszfeld's Method: Old and New Results. J Optim Theory Appl 164, 1-40, 2015. \href{https://doi.org/10.1007/s10957-014-0586-7}{https://doi.org/10.1007/s10957-014-0586-7}
+  \item Z. Drezner, H. W. Hamacher (Editors): Facility Location. Applications and Theory. Springer-Verlag Berlin Heidelberg, 2002.
+  \item Reza Zanjirani Farahani, Masoud Hekmatfar (Editors): Facility Location: Concepts, Models, Algorithms and Case Studies. Springer Dordrecht Heidelberg London New York, 2009.
+  \item \href{https://project-flo.de}{https://project-flo.de} (Project Facility Location Optimizer: A MATLAB-based software tool for solving location problems).
+  \end{enumerate}
+
+
+
+
+\end{document}
