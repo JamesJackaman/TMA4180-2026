@@ -55,14 +55,14 @@
   production facilities or warehouses, of hospitals, rescue stations and
   other public facilities, to landscaping or the placement of sensors on
   technical components. For example, in order to avoid hospital spacial
-  ineciency, it is important to learn how to optimize the spaces such
+  inefficiency, it is important to learn how to optimize the spaces such
   that relevant services such as surgical equipment or emergency
   services are located at the best points of access to other
   stations. As another example, for a decision-maker deciding the best
   location to build a warehouse relative to factories, it is important
-  to nd the best place to locate this warehouse in order to minimize
+  to find the best place to locate this warehouse in order to minimize
   costs of travel and transportations. Thus, location problems appear in
-  many variants and with dierent constraints depending on the practical
+  many variants and with different constraints depending on the practical
   application. Other examples of location analysis appear for instance
   in the following areas:
   \begin{itemize}
@@ -244,20 +244,20 @@ The above problem in task 7. was easy to solve, as the objective function is dif
 
   The Italian physicist and mathematician Evangelista Torricelli (mostly known for inventing the barometer) found a construction method of this point by ruler and compass, and it is therefore also called "the Toricelli point" (see reference 2. in Section 4). At the beginning of the twentieth century, the German economist Alfred Weber incorporated weights, and was able to treat facility location problems with more than 3 facilities, and the problem was consequently called "the Fermat-Weber problem". Other names for the problem are "the Fermat problem", "the Weber problem", "the Fermat-Toricelli problem", "the Steiner problem", and many more variants.
 
-  Before presenting an algorithm for solving problem ( \(P_{d_{2}}\) ), we give the following result.\\
-  Theorem 1 (see: Love, Morris Wesolowsky, 1988, Property 2.2). If for
-
+  Before presenting an algorithm for solving problem \eqref{P}, we give the following result.\\
+  
+  \begin{theorem}(see: Love, Morris Wesolowsky, 1988, Property 2.2). \label{thm1}
+  If for
   \[
       \text { Test }_{k}:=\left[\left(\sum_{i \in \mathcal{M} \backslash\{k\}} v^{i} \frac{a_{1}^{k}-a_{1}^{i}}{d_{2}\left(a^{k}, a^{i}\right)}\right)^{2}+\left(\sum_{i \in \mathcal{M} \backslash\{k\}} v^{i} \frac{a_{2}^{k}-a_{2}^{i}}{d_{2}\left(a^{k}, a^{i}\right)}\right)^{2}\right]^{\frac{1}{2}},
-    \]
-
-it holds that
-
-\[
+  \]
+  it holds that
+  \[
   \operatorname{Test}_{k} \leq v^{k}
-\]
+  \]
+  for one \(k \in \mathcal{M}\), then \(x^{*}=a^{k}\) is a global minimizer.
+  \end{theorem}
 
-for one \(k \in \mathcal{M}\), then \(x^{*}=a^{k}\) is a global minimizer.\\
 The so-called Weiszfeld algorithm is an iterative method based on the first-order necessary conditions for a stationary point of the objective function.
 
 The Weiszfeld algorithm consists of the following steps:
@@ -286,7 +286,7 @@ Input. Existing locations \(a^{i}=\left(a_{1}^{i}, a_{2}^{i}\right)^{T} \in \mat
 
 \item Choose a starting point \(x=\left(x_{1}, x_{2}\right)\). This point can be found, for example, by solving the median problem using the squared Euclidean norm.
 \item  Set for \(j=1,2: x_{j}^{\text {new }}=\frac{\sum_{i=1}^{m} v^{i} \frac{a_{j}^{i}}{d_{2}\left(a^{i}, x\right)}}{\sum_{i=1}^{m} v^{i} \frac{1}{d_{2}\left(a^{i}, x\right)}}\).\\
-\item If \(x^{\text {new }}=\left(x_{1}^{\text {new }}, x_{2}^{\text {new }}\right)\) satisfies a stopping criterion w.r.t. the given \(\epsilon\) (see \S\ref{sec:terminate} below) then set \(x^{*}=x^{\text {new }}\). Otherwise: Set \(x=x^{\text {new }}\) and go to Step 3.
+\item If \(x^{\text {new }}=\left(x_{1}^{\text {new }}, x_{2}^{\text {new }}\right)\) satisfies a stopping criterion w.r.t. the given \(\epsilon\) (see \S\ref{sec:terminate} below) then set \(x^{*}=x^{\text {new }}\). Otherwise: Set \(x=x^{\text {new }}\) and go to Step (c).
 
 \end{enumerate}
 Output. Approximation of the minimizer \(x^{*}=\left(x_{1}^{*}, x_{2}^{*}\right)\).\\
@@ -310,36 +310,36 @@ Let us define \(f_{d_{2}}(x):=\sum_{i \in \mathcal{M}} v^{i} d_{2}\left(a^{i}, x
 \]
 
 with \(\operatorname{conv}\left\{a^{1}, \ldots, a^{m}\right\}:=\left\{x \in \mathbb{R}^{2}: \exists \lambda^{1} \geq 0, \ldots, \lambda^{m} \geq 0, \sum_{i=1}^{m} \lambda^{i}=1, x=\sum_{i=1}^{m} \lambda^{i} a^{i}\right\}\) being the convex hull.\\
+
 \begin{theorem} \label{thm2}
   Let \(x \in \mathbb{R}^{2}\) be an iteration point that was obtained during the Weiszfeld algorithm. Then
-
   \[
       U B(x):=\left\|\nabla f_{d_{2}}(x)\right\| \cdot \sigma(x)
-\]
-
-is an upper bound for a possible improvement of the objective function
-\(f_{d_{2}}(x)\), where \(\|\cdot\|\) is the Euclidean norm in
-\(\mathbb{R}^{2}\).
-
+  \]
+  is an upper bound for a possible improvement of the objective function
+  \(f_{d_{2}}(x)\), where \(\|\cdot\|\) is the Euclidean norm in
+  \(\mathbb{R}^{2}\).
 \end{theorem}
+
+
 \begin{proof}
 Because \(f_{d_{2}}\) is convex, we have for an iteration point \(x\) obtained during the Weiszfeld algorithm
-
 \[
   \begin{aligned}
     f_{d_{2}}(x)-f_{d_{2}}\left(x^{*}\right) & \leq\left\langle\nabla f_{d_{2}}(x), x-x^{*}\right\rangle \\
-                                             & \text { Cauchy-Schwartz } \underset{\leq}{\leq}\left\|\nabla f_{d_{2}}(x)\right\| \cdot\left\|x-x^{*}\right\| \\
+                                             & \overset{Cauchy-Schwarz}{\leq} \left\|\nabla f_{d_{2}}(x)\right\| \cdot\left\|x-x^{*}\right\| \\
                                              & \leq\left\|\nabla f_{d_{2}}(x)\right\| \cdot \sigma(x)
   \end{aligned}
 \]
 \end{proof}
 
 \begin{theorem} \label{thm3}
-  Let \(x^{*}\) denote the global minimizer of \(\left(P_{d_{2}}\right)\). A lower bound for \(f_{d_{2}}\left(x^{*}\right)\) is given by
+  Let \(x^{*}\) denote the global minimizer of \eqref{P}. A lower bound for \(f_{d_{2}}\left(x^{*}\right)\) is given by
   \[
     L B(x):=f_{d_{2}}(x)-\left\|\nabla f_{d_{2}}(x)\right\| \cdot \sigma(x) .
   \]
 \end{theorem}
+
 \begin{proof}
   We have from Theorem 2
 
