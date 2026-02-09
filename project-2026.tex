@@ -376,15 +376,17 @@ Based on these two results, show that the following consequence holds:\\
   \item Explain why the main iteration scheme is chosen according to \eqref{iterscheme}.
   \item Prove \Cref{thm4} above using \Cref{thm2} and \Cref{thm3}.
   \item Derive a termination criterion for the Weiszfeld algorithm based on \Cref{thm4}.
-  \item Implement the Weiszfeld algorithm using Python, including a
-    test example. Your code must be runnable.
+  \item Implement the Weiszfeld algorithm using Python. Test your implementation on the following cases 
+  \begin{enumerate}[label=(\roman*)]
+      \item A unit square $A = \{(-1, -1)^{\top} , (-1, 1)^{\top}, (1, -1)^{\top}, (1,1)^{\top}\}$ with equal weights $v^{i} = 1$ for $ i = 1, \dots 4$. Verify that the algorithm converges to the origin $x^* = (0,0)^{\top}$. 
+      \item Create an original test case. Discuss how the set of given locations $A =\left\{a^1, \ldots, a^m\right\}$ and weights $v^{i},\ i \in \mathcal{M}=\{1, \ldots, m\}$ affects the location of the minimizer. 
+  \end{enumerate}
+  Your code must be runnable.
   \item Implement the gradient descent method with backtracking and
-    replace steps (b)-(d) in the above algorithm with it. Compare with
-    the Weiszfeld algorithm and discuss the difference between the two
+    replace steps (b)-(d) in the above algorithm with it. Test your implementation on the cases from above. Compare with the Weiszfeld algorithm and discuss the difference between the two
     algorithms and their performance. Which algorithm would you
     suggest, and why?
   \end{enumerate}
-
 
   \section*{4 Suggested Reading Material / Additional Resources}
   \begin{enumerate}[label=\Roman*.]
