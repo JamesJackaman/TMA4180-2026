@@ -38,7 +38,8 @@
 
   The project should be completed as a written report, including a
   typeset \verb|pdf| file. Background, calculations, justifications
-  and conclusions should be clearly stated.
+  and conclusions should be clearly stated. All group members names
+  must be displayed clearly on the \verb|pdf| file.
 
   The coding component must be runnable. Please submit your code as a
   Jupyter notebook with minimal external dependencies. In Inspera, the
@@ -78,41 +79,41 @@
   \item Geography (e.g., landscape design)
 
   \item Environment-oriented project management (e.g., development of
-  mining landscapes,
+    mining landscapes)
 
-\item Engineering.
+  \item Engineering.
 
-\end{itemize}
+  \end{itemize}
 
-This project is intended to provide the mathematical tools to model
-and solve location problems.  The main goal in location analysis is to
-find one or more new locations with minimal distance to a set of known
-locations.
+  This project is intended to provide the mathematical tools to model
+  and solve location problems.  The main goal in location analysis is to
+  find one or more new locations with minimal distance to a set of known
+  locations.
 
-\section{Problem description}
+  \section{Problem description}
 
-Let us consider $m$ given points in the plane
+  Let us consider $m$ given points in the plane
 
-$$
-a^i=\left(a_1^i, a_2^i\right)^{\top} \in \mathbb{R}^2, \quad i=1, \ldots, m .
-$$
+  $$
+  a^i=\left(a_1^i, a_2^i\right)^{\top} \in \mathbb{R}^2, \quad i=1, \ldots, m .
+  $$
 
-$A=\left\{a^1, \ldots, a^m\right\}$ is the set of all given
-locations. Let $\mathcal{M}:=\{1, \ldots, m\}$. We denote the new
-location, which we want to determine, by
+  $A=\left\{a^1, \ldots, a^m\right\}$ is the set of all given
+  locations. Let $\mathcal{M}:=\{1, \ldots, m\}$. We denote the new
+  location, which we want to determine, by
 
-$$
-x=\left(x_1, x_2\right)^{\top} \in \mathbb{R}^2 .
-$$
+  $$
+  x=\left(x_1, x_2\right)^{\top} \in \mathbb{R}^2 .
+  $$
 
 
-When modeling a location problem, distance measures as well as the
-selected objective function play a key role. We consider the following
-distances:
-\begin{itemize}
-\item $d_1(x, y)=\left|x_1-y_1\right|+\left|x_2-y_2\right|$ (Manhattan
-  or Taxicab distance)
-\item $d_2(x, y)=\sqrt{\left(x_1-y_1\right)^2+\left(x_2-y_2\right)^2}$
+  When modeling a location problem, distance measures as well as the
+  selected objective function play a key role. We consider the following
+  distances:
+  \begin{itemize}
+  \item $d_1(x, y)=\left|x_1-y_1\right|+\left|x_2-y_2\right|$ (Manhattan
+    or Taxicab distance)
+  \item $d_2(x, y)=\sqrt{\left(x_1-y_1\right)^2+\left(x_2-y_2\right)^2}$
   (Euclidean distance)
 \item $d_{\infty}(x, y)=\max
   \left\{\left|x_1-y_1\right|,\left|x_2-y_2\right|\right\}$ (Maximum
